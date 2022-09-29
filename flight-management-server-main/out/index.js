@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const http_1 = __importDefault(require("http"));
 const cors_1 = __importDefault(require("cors"));
@@ -10,13 +11,22 @@ const socket_io_1 = require("socket.io");
 const utils_1 = require("./utils");
 const airportList_1 = require("./airportList");
 const moment_1 = __importDefault(require("moment"));
-const PORT = 4963;
 const TIME_FORMAT = "dd/MM/yyyy - HH:mm";
 const app = (0, express_1.default)();
+dotenv_1.default.config(process.env.PORT);
 app.use(express_1.default.json());
-app.use((0, cors_1.default)({
-    origin: "*",
-}));
+const whiteList = [process.env.FRONTEND_URL];
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (whiteList.includes(origin)) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error("Cors Error"));
+        }
+    },
+};
+app.use((0, cors_1.default)(corsOptions));
 const server = http_1.default.createServer(app);
 const io = new socket_io_1.Server(server, {
     cors: { origin: "*" },
@@ -35,8 +45,8 @@ app.get("/flights/:flightNum", (req, res) => {
     const flight = flights.find((p) => p.flightNumber === req.params.flightNum);
     res.json(flight);
 });
-server.listen(PORT, () => {
-    console.log("server listening on port", PORT);
+server.listen(process.env.PORT || 4963, () => {
+    console.log("server listening on port", process.env.PORT);
     for (let i = 0; i < 50; i++) {
         const randomAP1 = Math.floor(Math.random() * 50);
         const randomAP2 = Math.floor(Math.random() * 50);
@@ -63,7 +73,11 @@ function publishEntityUpdate(socket) {
                     break;
                 case "airborne":
                     randomFlight.status =
-                        chance >= 0.9 ? "malfunction" : chance >= 0.7 ? "hangar" : "airborne";
+                        chance >= 0.9
+                            ? "malfunction"
+                            : chance >= 0.7
+                                ? "hangar"
+                                : "airborne";
                     break;
                 case "malfunction":
                     randomFlight.status = chance >= 0.9 ? "hangar" : "malfunction";

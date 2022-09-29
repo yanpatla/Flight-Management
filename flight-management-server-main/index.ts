@@ -1,4 +1,5 @@
-import { Flight } from "./types";
+import { Flight, ProcessEnv } from "./types";
+import dotenv from "dotenv";
 import express from "express";
 import http from "http";
 import cors from "cors";
@@ -7,20 +8,27 @@ import { generateFlightNumber } from "./utils";
 import { airports } from "./airportList";
 import moment from "moment";
 
-const PORT = 4963;
 const TIME_FORMAT = "dd/MM/yyyy - HH:mm";
 
 const app = express();
+dotenv.config(process.env.PORT);
+
 app.use(express.json());
-app.use(
-  cors({
-    origin: "*",
-  })
-);
+const whiteList = [process.env.FRONTEND_URL];
+const corsOptions: cors.CorsOptions = {
+  origin: function (origin, callback) {
+    if (whiteList.includes(origin as string)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Cors Error"));
+    }
+  },
+};
+app.use(cors(corsOptions));
 
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: { origin: "*" },
+  cors: { origin: process.env.FRONTEND_URL },
 });
 
 const flights: Flight[] = [];
@@ -41,8 +49,8 @@ app.get("/flights/:flightNum", (req, res) => {
   res.json(flight);
 });
 
-server.listen(PORT, () => {
-  console.log("server listening on port", PORT);
+server.listen(process.env.PORT || 4963, () => {
+  console.log("server listening on port", process.env.PORT);
   for (let i = 0; i < 50; i++) {
     const randomAP1 = Math.floor(Math.random() * 50);
     const randomAP2 = Math.floor(Math.random() * 50);
@@ -70,7 +78,11 @@ function publishEntityUpdate(socket: Socket) {
           break;
         case "airborne":
           randomFlight.status =
-            chance >= 0.9 ? "malfunction" : chance >= 0.7 ? "hangar" : "airborne";
+            chance >= 0.9
+              ? "malfunction"
+              : chance >= 0.7
+              ? "hangar"
+              : "airborne";
           break;
         case "malfunction":
           randomFlight.status = chance >= 0.9 ? "hangar" : "malfunction";
