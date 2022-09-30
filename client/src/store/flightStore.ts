@@ -1,5 +1,5 @@
 import { clientAxios } from "@/config";
-import { Flight, IFlights } from "@/models/flights";
+import { Flight } from "@/models/flights";
 import { action, computed, makeObservable, observable } from "mobx";
 import { IRootStore } from "./RootStore";
 export class FlightStore {
@@ -17,7 +17,7 @@ export class FlightStore {
   async callGetFlights() {
     const { data } = await clientAxios.get("/flights");
     this.flights = data.flights ?? [];
-    console.log(data.flights);
+    // console.log(data.flights);
   }
 
   get getFlights() {
