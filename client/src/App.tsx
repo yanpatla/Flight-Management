@@ -1,8 +1,8 @@
 import { observer } from "mobx-react";
 import { useEffect, useState } from "react";
 import { useStore } from "./hooks";
-import { Flight } from "./models";
 import io, { Socket } from "socket.io-client";
+import { FlightBoard } from "./components";
 let socket: Socket;
 function App() {
   const {
@@ -20,18 +20,8 @@ function App() {
     };
   }, []);
   return (
-    <div className="pp">
-      {flightStore.getFlights.map((el) => (
-        <>
-          <p>{el.status}</p>
-          <p>{el.flightNumber}</p>
-          <p>{el.takeoffAirport}</p>
-          <p>{el.takeoffTime}</p>
-          <p>{el.landingAirport}</p>
-          <p>{el.landingTime}</p>
-          <br />
-        </>
-      ))}
+    <div className="app">
+      <FlightBoard />
     </div>
   );
 }
