@@ -25,10 +25,10 @@ function App() {
         <>
           <p>{el.status}</p>
           <p>{el.flightNumber}</p>
+          <p>{el.takeoffAirport}</p>
+          <p>{el.takeoffTime}</p>
           <p>{el.landingAirport}</p>
           <p>{el.landingTime}</p>
-          <p>{el.takeoffAirport}</p>
-          <p>{}</p>
           <br />
         </>
       ))}

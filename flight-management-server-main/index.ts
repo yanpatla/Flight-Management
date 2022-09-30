@@ -8,8 +8,7 @@ import { generateFlightNumber } from "./utils";
 import { airports } from "./airportList";
 import moment from "moment";
 
-const TIME_FORMAT = "dd/MM/yyyy - HH:mm";
-
+const TIME_FORMAT = "DD/MM/YYYY - HH:mm";
 const app = express();
 dotenv.config(process.env.PORT);
 console.log(process.env.FRONTEND_URL);
@@ -105,4 +104,6 @@ function publishEntityUpdate(socket: Socket) {
       break;
   }
   socket.emit("flight-update", randomFlight);
+
+  console.log(randomFlight.takeoffTime);
 }

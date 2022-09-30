@@ -11,7 +11,8 @@ const socket_io_1 = require("socket.io");
 const utils_1 = require("./utils");
 const airportList_1 = require("./airportList");
 const moment_1 = __importDefault(require("moment"));
-const TIME_FORMAT = "dd/MM/yyyy - HH:mm";
+const TIME_FORMAT = "DD/MM/YYYY - HH:mm";
+// const TIME_FORMAT = "dd/MM/yyyy - HH:mm";
 const app = (0, express_1.default)();
 dotenv_1.default.config(process.env.PORT);
 console.log(process.env.FRONTEND_URL);
@@ -100,4 +101,5 @@ function publishEntityUpdate(socket) {
             break;
     }
     socket.emit("flight-update", randomFlight);
+    console.log(randomFlight.takeoffTime);
 }
