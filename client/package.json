@@ -11,6 +11,7 @@
   "dependencies": {
     "@emotion/styled": "^11.10.4",
     "@types/axios": "^0.14.0",
+    "@types/socket.io-client": "^3.0.0",
     "axios": "^0.27.2",
     "mobx": "^6.6.2",
     "mobx-logger": "^0.7.1",

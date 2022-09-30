@@ -14,6 +14,7 @@ const moment_1 = __importDefault(require("moment"));
 const TIME_FORMAT = "dd/MM/yyyy - HH:mm";
 const app = (0, express_1.default)();
 dotenv_1.default.config(process.env.PORT);
+console.log(process.env.FRONTEND_URL);
 app.use(express_1.default.json());
 const whiteList = [process.env.FRONTEND_URL];
 const corsOptions = {
@@ -29,7 +30,7 @@ const corsOptions = {
 app.use((0, cors_1.default)(corsOptions));
 const server = http_1.default.createServer(app);
 const io = new socket_io_1.Server(server, {
-    cors: { origin: "*" },
+    cors: { origin: process.env.FRONTEND_URL },
 });
 const flights = [];
 io.on("connection", (socket) => {
@@ -45,7 +46,7 @@ app.get("/flights/:flightNum", (req, res) => {
     const flight = flights.find((p) => p.flightNumber === req.params.flightNum);
     res.json(flight);
 });
-server.listen(process.env.PORT || 4963, () => {
+server.listen(process.env.PORT, () => {
     console.log("server listening on port", process.env.PORT);
     for (let i = 0; i < 50; i++) {
         const randomAP1 = Math.floor(Math.random() * 50);

@@ -12,6 +12,7 @@ const TIME_FORMAT = "dd/MM/yyyy - HH:mm";
 
 const app = express();
 dotenv.config(process.env.PORT);
+console.log(process.env.FRONTEND_URL);
 
 app.use(express.json());
 const whiteList = [process.env.FRONTEND_URL];
@@ -49,7 +50,7 @@ app.get("/flights/:flightNum", (req, res) => {
   res.json(flight);
 });
 
-server.listen(process.env.PORT || 4963, () => {
+server.listen(process.env.PORT, () => {
   console.log("server listening on port", process.env.PORT);
   for (let i = 0; i < 50; i++) {
     const randomAP1 = Math.floor(Math.random() * 50);
