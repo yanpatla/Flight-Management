@@ -11,7 +11,7 @@ const socket_io_1 = require("socket.io");
 const utils_1 = require("./utils");
 const airportList_1 = require("./airportList");
 const moment_1 = __importDefault(require("moment"));
-const TIME_FORMAT = "DD/MM/YYYY - HH:mm";
+const TIME_FORMAT = "DD/MM/YYYY HH:mm";
 const app = (0, express_1.default)();
 dotenv_1.default.config(process.env.PORT);
 console.log(process.env.FRONTEND_URL);
@@ -65,6 +65,7 @@ function publishEntityUpdate(socket) {
     const randomIndex = Math.floor(Math.random() * flights.length);
     const randomFlight = flights[randomIndex];
     const actionType = Math.floor(Math.random() * 3);
+    const delayByMin = Math.floor(Math.random() * 120);
     switch (actionType) {
         case 0: // status update
             const chance = Math.random();
@@ -86,13 +87,13 @@ function publishEntityUpdate(socket) {
             }
             break;
         case 1: // time delay
-            const delayByMin = Math.floor(Math.random() * 120);
             randomFlight.takeoffTime = (0, moment_1.default)(randomFlight.takeoffTime, TIME_FORMAT)
                 .add(delayByMin, "minutes")
                 .format(TIME_FORMAT);
             randomFlight.landingTime = (0, moment_1.default)(randomFlight.landingTime, TIME_FORMAT)
                 .add(delayByMin, "minutes")
                 .format(TIME_FORMAT);
+            // console.log(delayByMin);
             break;
         case 2: // destination update
             const newDestination = airportList_1.airports[Math.floor(Math.random() * 50)];
@@ -100,4 +101,5 @@ function publishEntityUpdate(socket) {
             break;
     }
     socket.emit("flight-update", randomFlight);
+    socket.emit("flight-delay", delayByMin);
 }

@@ -6,7 +6,27 @@ export interface FlightsDetailsInterface {
 }
 
 const FlightsDetails: React.FC<FlightsDetailsInterface> = ({ flight }) => {
+  function usePrevious(value: any) {
+    const ref = useRef();
+    // Store current value in ref
+    useEffect(() => {
+      ref.current = value;
+    }, [value]);
+    return ref.current;
+  }
+  const prevCount: any = usePrevious(flight.takeoffTime);
 
+  function timeDiffCalc(dateFuture: any, dateNow: any) {
+    console.log("date", dateFuture);
+    console.log("ppee", dateNow);
+
+    let diffInMilliSeconds = Math.abs(dateFuture - dateNow) / 1000;
+
+    diffInMilliSeconds /= 60;
+    console.log("milisecodns", diffInMilliSeconds);
+    const minutes = Math.abs(Math.round(diffInMilliSeconds));
+    return minutes;
+  }
 
   return (
     <>
@@ -15,14 +35,26 @@ const FlightsDetails: React.FC<FlightsDetailsInterface> = ({ flight }) => {
 
         <td>{flight.status}</td>
 
-        <td>{flight.takeoffTime}</td>
+        <td>{flight.takeoffTime.toString()}</td>
 
-        <td>{flight.landingTime}</td>
+        <td>{flight.landingTime.toString()}</td>
 
         <td>{flight.takeoffAirport}</td>
 
         <td>{flight.landingAirport}</td>
-        <td>a</td>
+        <td>
+          {isNaN(
+            timeDiffCalc(
+              new Date(flight.takeoffTime).getTime(),
+              new Date(prevCount).getTime()
+            )
+          )
+            ? 0
+            : timeDiffCalc(
+                new Date(flight.takeoffTime).getTime(),
+                new Date(prevCount).getTime()
+              )}
+        </td>
       </tr>
     </>
   );

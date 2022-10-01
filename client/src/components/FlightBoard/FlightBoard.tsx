@@ -11,12 +11,16 @@ const FlightBoard: React.FC<FlightBoardInterface> = () => {
   const {
     rootStore: { flightStore },
   } = useStore();
+  
   useEffect(() => {
     socket = io(import.meta.env.VITE_BACKEND_URL);
 
     socket.on("flight-update", () => {
       flightStore.callGetFlights();
     });
+    socket.on("flight-delay", (delay) => {
+
+	});
 
     return () => {
       socket.off("flight-update");
