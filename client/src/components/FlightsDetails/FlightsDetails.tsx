@@ -10,12 +10,12 @@ export interface FlightsDetailsInterface {
 const FlightsDetails: React.FC<FlightsDetailsInterface> = ({ flight }) => {
   const prevCount: any = usePrevious(flight.takeoffTime);
 
-  function timeDiffCalc(currentDate: any, beforeDate: any) {
+  const timeDiffCalc = (currentDate: any, beforeDate: any) => {
     let diffInMilliSeconds = Math.abs(currentDate - beforeDate) / 1000;
     diffInMilliSeconds /= 60;
     const minutes = Math.abs(Math.round(diffInMilliSeconds));
     return minutes;
-  }
+  };
 
   return (
     <>

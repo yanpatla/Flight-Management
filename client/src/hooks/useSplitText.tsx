@@ -1,7 +1,7 @@
 import { memo } from "react";
 import styled from "@emotion/styled";
 interface ISplitText {
-  str: string;
+  str: string ;
 }
 const SplitText = memo<ISplitText>(({ str }) => {
   return (

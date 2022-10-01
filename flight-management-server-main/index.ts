@@ -11,8 +11,6 @@ import moment from "moment";
 const TIME_FORMAT = "DD/MM/YYYY HH:mm";
 const app = express();
 dotenv.config(process.env.PORT);
-console.log(process.env.FRONTEND_URL);
-
 app.use(express.json());
 const whiteList = [process.env.FRONTEND_URL];
 const corsOptions: cors.CorsOptions = {
@@ -104,5 +102,4 @@ function publishEntityUpdate(socket: Socket) {
       break;
   }
   socket.emit("flight-update", randomFlight);
- 
 }

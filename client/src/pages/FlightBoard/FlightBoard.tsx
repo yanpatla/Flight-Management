@@ -18,8 +18,6 @@ const FlightBoard: React.FC<FlightBoardInterface> = () => {
     socket.on("flight-update", () => {
       flightStore.callGetFlights();
     });
-    flightStore.callGetFlight("ML0673");
-
     return () => {
       socket.off("flight-update");
     };
