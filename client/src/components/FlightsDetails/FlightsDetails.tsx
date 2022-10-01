@@ -19,7 +19,7 @@ const FlightsDetails: React.FC<FlightsDetailsInterface> = ({ flight }) => {
 
   return (
     <>
-      <Tr flight={flight}>
+      <tr>
         <SplitText str={flight.flightNumber} />
 
         <SplitText str={flight.status} />
@@ -44,14 +44,10 @@ const FlightsDetails: React.FC<FlightsDetailsInterface> = ({ flight }) => {
                 new Date(prevCount).getTime()
               )}
         </td>
-      </Tr>
+      </tr>
     </>
   );
 };
 const FlightsDetailsStyle = styled.div``;
-const Tr = styled.tr<FlightsDetailsInterface>`
-  background-color: ${({ flight }) =>
-    flight?.status === "malfunction" ? "red" : "white"};
-`;
 
 export default FlightsDetails;
