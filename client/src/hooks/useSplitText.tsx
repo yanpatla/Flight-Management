@@ -5,11 +5,11 @@ interface ISplitText {
 }
 const SplitText = memo<ISplitText>(({ str }) => {
   return (
-    <div>
+    <td>
       {str.split("").map((item, index) => {
         return <div key={index}>{item}</div>;
       })}
-    </div>
+    </td>
   );
 });
 

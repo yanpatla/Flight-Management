@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import { Flight } from "@/models";
 import usePrevious from "@/hooks/usePrevious";
+import SplitText from "@/hooks/useSplitText";
 export interface FlightsDetailsInterface {
   flight: Flight;
 }
@@ -19,17 +20,17 @@ const FlightsDetails: React.FC<FlightsDetailsInterface> = ({ flight }) => {
   return (
     <>
       <Tr flight={flight}>
-        <td>{flight.flightNumber}</td>
-        {}
-        <td>{flight.status}</td>
+        <SplitText str={flight.flightNumber} />
 
-        <td>{flight.takeoffTime.toString()}</td>
+        <SplitText str={flight.status} />
 
-        <td>{flight.landingTime.toString()}</td>
+        <SplitText str={flight.takeoffTime.toString()} />
 
-        <td>{flight.takeoffAirport}</td>
+        <SplitText str={flight.landingTime.toString()} />
 
-        <td>{flight.landingAirport}</td>
+        <SplitText str={flight.takeoffAirport} />
+
+        <SplitText str={flight.landingAirport} />
         <td>
           {isNaN(
             timeDiffCalc(
