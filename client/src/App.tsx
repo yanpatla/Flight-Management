@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useStore } from "./hooks";
+import { FlightBoard } from "./pages";
+
 function App() {
   return (
-    <div className="pp">
-       
-        hola
-      
+    <div className="app">
+      <FlightBoard />
     </div>
   );
 }

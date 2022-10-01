@@ -1,8 +1,8 @@
 export interface Flight {
   flightNumber: string;
   status: string;
-  takeoffTime: string;
-  landingTime: string;
+  takeoffTime: Date;
+  landingTime: Date;
   takeoffAirport: string;
   landingAirport: string;
 }
