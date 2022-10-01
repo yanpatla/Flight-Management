@@ -4,4 +4,3 @@ This project is an assignment given to me by Kubiya Company. It is a Flight Mana
 
 Technologies used: React(VITE), TypeScript, Function Components, Emotion Styled Components, Mobx, Context and Socket.io.
 
-Translated with www.DeepL.com/Translator (free version)
