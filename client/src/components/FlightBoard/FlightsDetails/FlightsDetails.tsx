@@ -1,25 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import { Flight } from "@/models";
+import usePrevious from "@/hooks/usePrevious";
 export interface FlightsDetailsInterface {
   flight: Flight;
 }
 
 const FlightsDetails: React.FC<FlightsDetailsInterface> = ({ flight }) => {
-  function usePrevious(value: any) {
-    const ref = useRef();
-    // Store current value in ref
-    useEffect(() => {
-      ref.current = value;
-    }, [value]);
-    return ref.current;
-  }
   const prevCount: any = usePrevious(flight.takeoffTime);
 
   function timeDiffCalc(dateFuture: any, dateNow: any) {
-    console.log("date", dateFuture);
-    console.log("ppee", dateNow);
-
     let diffInMilliSeconds = Math.abs(dateFuture - dateNow) / 1000;
 
     diffInMilliSeconds /= 60;

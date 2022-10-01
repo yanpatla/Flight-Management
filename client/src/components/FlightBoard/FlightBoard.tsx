@@ -18,10 +18,6 @@ const FlightBoard: React.FC<FlightBoardInterface> = () => {
     socket.on("flight-update", () => {
       flightStore.callGetFlights();
     });
-    socket.on("flight-delay", (delay) => {
-
-	});
-
     return () => {
       socket.off("flight-update");
     };
