@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { FlightsDetails } from "./FlightsDetails";
+import { FlightsDetails } from "../../components/FlightsDetails";
 import io, { Socket } from "socket.io-client";
 import { useStore } from "@/hooks";
 import { observer } from "mobx-react";
@@ -8,22 +8,47 @@ let socket: Socket;
 
 export interface FlightBoardInterface {}
 const FlightBoard: React.FC<FlightBoardInterface> = () => {
+  const [searchByNumberFlight, setSearchByNumberFlight] = useState<string>("");
+  //   const [searchByAirport, setSearchByNumberFlight] = useState<string>("");
   const {
     rootStore: { flightStore },
   } = useStore();
-  
   useEffect(() => {
     socket = io(import.meta.env.VITE_BACKEND_URL);
 
     socket.on("flight-update", () => {
       flightStore.callGetFlights();
     });
+    flightStore.callGetFlight("ML0673");
+
     return () => {
       socket.off("flight-update");
     };
   }, []);
+
+  const filteredFlights =
+    searchByNumberFlight === ""
+      ? flightStore.getFlights
+      : flightStore.getFlights.filter(
+          (flight) =>
+            flight.flightNumber
+              .toLowerCase()
+              .includes(searchByNumberFlight.toLowerCase()) ||
+            flight.landingAirport
+              .toLowerCase()
+              .includes(searchByNumberFlight.toLowerCase()) ||
+            flight.takeoffAirport
+              .toLowerCase()
+              .includes(searchByNumberFlight.toLowerCase())
+        );
+
   return (
     <FlightBoardStyle>
+      <input
+        type="search"
+        onChange={(e) => setSearchByNumberFlight(e.target.value)}
+      />
+
       <header>FLIGHTS</header>
 
       <table>
@@ -39,7 +64,7 @@ const FlightBoard: React.FC<FlightBoardInterface> = () => {
           </tr>
         </thead>
         <tbody id="table-body">
-          {flightStore.getFlights.map((flight) => (
+          {filteredFlights.map((flight) => (
             <FlightsDetails key={flight.flightNumber} flight={flight} />
           ))}
         </tbody>

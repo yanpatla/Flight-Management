@@ -1,3 +1,2 @@
-export * from './FlightBoard/FlightsDetails';
-export * from './FlightBoard';
+export * from './FlightsDetails';
 export * from './index';

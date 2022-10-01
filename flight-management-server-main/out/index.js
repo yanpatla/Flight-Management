@@ -37,7 +37,7 @@ io.on("connection", (socket) => {
     console.log("a user connected");
     setInterval(() => {
         publishEntityUpdate(socket);
-    }, 300);
+    }, 1000);
 });
 app.get("/flights", (req, res) => {
     res.json({ flights });

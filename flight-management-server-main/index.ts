@@ -104,4 +104,5 @@ function publishEntityUpdate(socket: Socket) {
       break;
   }
   socket.emit("flight-update", randomFlight);
+ 
 }

@@ -9,20 +9,18 @@ export interface FlightsDetailsInterface {
 const FlightsDetails: React.FC<FlightsDetailsInterface> = ({ flight }) => {
   const prevCount: any = usePrevious(flight.takeoffTime);
 
-  function timeDiffCalc(dateFuture: any, dateNow: any) {
-    let diffInMilliSeconds = Math.abs(dateFuture - dateNow) / 1000;
-
+  function timeDiffCalc(currentDate: any, beforeDate: any) {
+    let diffInMilliSeconds = Math.abs(currentDate - beforeDate) / 1000;
     diffInMilliSeconds /= 60;
-    console.log("milisecodns", diffInMilliSeconds);
     const minutes = Math.abs(Math.round(diffInMilliSeconds));
     return minutes;
   }
 
   return (
     <>
-      <tr>
+      <Tr flight={flight}>
         <td>{flight.flightNumber}</td>
-
+        {}
         <td>{flight.status}</td>
 
         <td>{flight.takeoffTime.toString()}</td>
@@ -45,11 +43,14 @@ const FlightsDetails: React.FC<FlightsDetailsInterface> = ({ flight }) => {
                 new Date(prevCount).getTime()
               )}
         </td>
-      </tr>
+      </Tr>
     </>
   );
 };
-
-export const FlightsDetailsStyle = styled.div``;
+const FlightsDetailsStyle = styled.div``;
+const Tr = styled.tr<FlightsDetailsInterface>`
+  background-color: ${({ flight }) =>
+    flight?.status === "malfunction" ? "red" : "white"};
+`;
 
 export default FlightsDetails;
