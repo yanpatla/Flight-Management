@@ -8,8 +8,7 @@ let socket: Socket;
 
 export interface FlightBoardInterface {}
 const FlightBoard: React.FC<FlightBoardInterface> = () => {
-  const [searchByNumberFlight, setSearchByNumberFlight] = useState<string>("");
-  //   const [searchByAirport, setSearchByNumberFlight] = useState<string>("");
+  const [searchFlight, setSearchFlight] = useState<string>("");
   const {
     rootStore: { flightStore },
   } = useStore();
@@ -27,27 +26,24 @@ const FlightBoard: React.FC<FlightBoardInterface> = () => {
   }, []);
 
   const filteredFlights =
-    searchByNumberFlight === ""
+    searchFlight === ""
       ? flightStore.getFlights
       : flightStore.getFlights.filter(
           (flight) =>
             flight.flightNumber
               .toLowerCase()
-              .includes(searchByNumberFlight.toLowerCase()) ||
+              .includes(searchFlight.toLowerCase()) ||
             flight.landingAirport
               .toLowerCase()
-              .includes(searchByNumberFlight.toLowerCase()) ||
+              .includes(searchFlight.toLowerCase()) ||
             flight.takeoffAirport
               .toLowerCase()
-              .includes(searchByNumberFlight.toLowerCase())
+              .includes(searchFlight.toLowerCase())
         );
 
   return (
     <FlightBoardStyle>
-      <input
-        type="search"
-        onChange={(e) => setSearchByNumberFlight(e.target.value)}
-      />
+      <input type="search" onChange={(e) => setSearchFlight(e.target.value)} />
 
       <header>FLIGHTS</header>
 
