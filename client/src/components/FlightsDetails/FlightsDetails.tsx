@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import styled from "@emotion/styled";
 import { Flight } from "@/models";
 import usePrevious from "@/hooks/usePrevious";
@@ -9,11 +15,13 @@ export interface FlightsDetailsInterface {
 
 const FlightsDetails: React.FC<FlightsDetailsInterface> = ({ flight }) => {
   const prevCount: any = usePrevious(flight.takeoffTime);
+  const memoizedValue = useMemo(() => flight.takeoffTime, [prevCount]);
 
   const timeDiffCalc = (currentDate: any, beforeDate: any) => {
     let diffInMilliSeconds = Math.abs(currentDate - beforeDate) / 1000;
     diffInMilliSeconds /= 60;
     const minutes = Math.abs(Math.round(diffInMilliSeconds));
+
     return minutes;
   };
 
@@ -32,17 +40,18 @@ const FlightsDetails: React.FC<FlightsDetailsInterface> = ({ flight }) => {
 
         <SplitText str={flight.landingAirport} />
         <td>
-          {isNaN(
+          {/* {isNaN(
             timeDiffCalc(
-              new Date(flight.takeoffTime).getTime(),
-              new Date(prevCount).getTime()
+              Number(new Date(flight.takeoffTime).getTime()),
+              Number(new Date(prevCount).getTime())
             )
-          )
-            ? 0
-            : timeDiffCalc(
-                new Date(flight.takeoffTime).getTime(),
-                new Date(prevCount).getTime()
-              )}
+          ) */}
+            {/* ?  */}
+            0
+            {/* : timeDiffCalc(
+                Number(new Date(flight.takeoffTime).getTime()),
+                Number(new Date(prevCount).getTime())
+              )} */}
         </td>
       </tr>
     </>

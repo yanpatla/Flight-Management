@@ -8,29 +8,7 @@ import { Flight } from "@/models/flights";
 
 export interface FlightBoardInterface {}
 const FlightBoard: React.FC<FlightBoardInterface> = () => {
-  const [searchFlight, setSearchFlight] = useState<string>("");
   const { flightStore } = useContext(FlightContext);
-
-  const filteredFlights =
-    searchFlight === ""
-      ? flightStore?.getFlights
-      : flightStore?.getFlights.filter(
-          (flight: {
-            flightNumber: string;
-            landingAirport: string;
-            takeoffAirport: string;
-          }) =>
-            flight.flightNumber
-              .toLowerCase()
-              .includes(searchFlight.toLowerCase()) ||
-            flight.landingAirport
-              .toLowerCase()
-              .includes(searchFlight.toLowerCase()) ||
-            flight.takeoffAirport
-              .toLowerCase()
-              .includes(searchFlight.toLowerCase())
-        );
-
   return (
     <>
       <FlightBoardStyle>
@@ -38,7 +16,7 @@ const FlightBoard: React.FC<FlightBoardInterface> = () => {
           <Search
             type="search"
             placeholder="Flight Number, Takeoff or Landing Destination"
-            onChange={(e) => setSearchFlight(e.target.value)}
+            onChange={(e) => flightStore?.setSearch(e.target.value)}
           />
           <Title>FLIGHTS</Title>
         </Header>
@@ -55,7 +33,7 @@ const FlightBoard: React.FC<FlightBoardInterface> = () => {
             </tr>
           </thead>
           <tbody id="table-body">
-            {filteredFlights?.map((flight: Flight) => (
+            {flightStore?.getFlights?.map((flight: Flight) => (
               <FlightsDetails key={flight.flightNumber} flight={flight} />
             ))}
           </tbody>
