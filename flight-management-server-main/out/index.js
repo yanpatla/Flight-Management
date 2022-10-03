@@ -14,7 +14,6 @@ const moment_1 = __importDefault(require("moment"));
 const TIME_FORMAT = "DD/MM/YYYY HH:mm";
 const app = (0, express_1.default)();
 dotenv_1.default.config(process.env.PORT);
-console.log(process.env.FRONTEND_URL);
 app.use(express_1.default.json());
 const whiteList = [process.env.FRONTEND_URL];
 const corsOptions = {
