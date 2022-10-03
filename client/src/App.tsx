@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { useStore } from "./hooks";
+import FlightProvider from "./context/FlightContext";
 import { FlightBoard } from "./pages";
 
 function App() {
   return (
     <div className="app">
-      <FlightBoard />
+      <FlightProvider>
+        <FlightBoard />
+      </FlightProvider>
     </div>
   );
 }

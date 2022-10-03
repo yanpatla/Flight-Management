@@ -1,33 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { FlightsDetails } from "../../components/FlightsDetails";
-import io, { Socket } from "socket.io-client";
-import { useStore } from "@/hooks";
+
 import { observer } from "mobx-react";
-let socket: Socket;
+import { FlightContext } from "@/context/FlightContext";
+import { Flight } from "@/models/flights";
 
 export interface FlightBoardInterface {}
 const FlightBoard: React.FC<FlightBoardInterface> = () => {
   const [searchFlight, setSearchFlight] = useState<string>("");
-  const {
-    rootStore: { flightStore },
-  } = useStore();
-  useEffect(() => {
-    socket = io(import.meta.env.VITE_BACKEND_URL);
-
-    socket.on("flight-update", () => {
-      flightStore.callGetFlights();
-    });
-    return () => {
-      socket.off("flight-update");
-    };
-  }, []);
+  const { flightStore } = useContext(FlightContext);
 
   const filteredFlights =
     searchFlight === ""
-      ? flightStore.getFlights
-      : flightStore.getFlights.filter(
-          (flight) =>
+      ? flightStore?.getFlights
+      : flightStore?.getFlights.filter(
+          (flight: {
+            flightNumber: string;
+            landingAirport: string;
+            takeoffAirport: string;
+          }) =>
             flight.flightNumber
               .toLowerCase()
               .includes(searchFlight.toLowerCase()) ||
@@ -63,7 +55,7 @@ const FlightBoard: React.FC<FlightBoardInterface> = () => {
             </tr>
           </thead>
           <tbody id="table-body">
-            {filteredFlights.map((flight) => (
+            {filteredFlights?.map((flight: Flight) => (
               <FlightsDetails key={flight.flightNumber} flight={flight} />
             ))}
           </tbody>

@@ -1,33 +1,32 @@
 import {
   action,
   computed,
+  IObservableArray,
   makeObservable,
   observable,
   runInAction,
 } from "mobx";
 import { clientAxios } from "@/config";
-import { Flight } from "@/models/flights";
-import { IRootStore } from "./RootStore";
-export class FlightStore {
-  flights: Flight[] = [];
-  rootStore: IRootStore;
-  constructor(rootStore: IRootStore) {
-    this.rootStore = rootStore;
-    makeObservable(this, {
-      flights: observable,
-      callGetFlights: action,
-      getFlights: computed,
-    });
+import { Flight, IFlights } from "@/models/flights";
+export interface IFlightsStore {
+  flights: IObservableArray<Flight>;
+  callGetFlights: () => void;
+  getFlights: Flight[];
+}
+export class FlightStore implements IFlightsStore {
+  @observable flights: IObservableArray<Flight> = observable.array<Flight>([]);
+  constructor() {
+    makeObservable(this);
   }
 
-  async callGetFlights() {
+  @action async callGetFlights() {
     const { data } = await clientAxios.get("/flights");
     runInAction(() => {
       this.flights = data.flights ?? [];
     });
   }
 
-  get getFlights() {
+  @computed get getFlights() {
     return this.flights;
   }
 }
