@@ -7,9 +7,4 @@ export interface Flight {
   takeoffAirport: string;
   landingAirport: string;
 }
-
- 
-  export interface ProcessEnv {
-    PORT: number;
-  }
  
