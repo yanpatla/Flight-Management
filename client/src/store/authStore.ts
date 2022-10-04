@@ -1,10 +1,20 @@
 import { clientAxios } from "@/config";
-import { makeObservable, observable } from "mobx";
-
-export class AuthStore {
+import { IUser } from "@/models/user";
+import { action, makeObservable, observable } from "mobx";
+export interface IAuthStore {
+  errors: string;
+  token: string;
+  values: IUser;
+  
+  setUsername: (val: string) => void;
+  setEmail: (val: string) => void;
+  setPassword: (val: string) => void;
+  signup: () => void;
+}
+export class AuthStore implements IAuthStore {
   @observable errors!: string;
   @observable token!: string;
-  @observable values = {
+  @observable values: IUser = {
     username: "",
     email: "",
     password: "",
@@ -14,21 +24,23 @@ export class AuthStore {
     makeObservable(this);
   }
 
-  setUsername(username: string) {
+  @action setUsername(username: string) {
     this.values.username = username;
+    console.log(username);
+    
   }
 
-  setEmail(email: string) {
+  @action setEmail(email: string) {
     this.values.email = email;
   }
 
-  setPassword(password: string) {
+  @action setPassword(password: string) {
     this.values.password = password;
   }
 
-  async signup() {
+  @action async signup() {
     try {
-      const { data } = await clientAxios.post("/users", this.values);
+    const { data } = await clientAxios.post("/users", this.values);
       console.log(data);
     } catch (error) {
       console.log(error);

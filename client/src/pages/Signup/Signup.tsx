@@ -1,55 +1,53 @@
-import React from "react";
+import { observer } from "mobx-react";
+import { AuthContext } from "@/context";
+import React, { useContext } from "react";
+import styled from "@emotion/styled";
 export interface SignupInterface {}
 
 const Signup: React.FC<SignupInterface> = () => {
+  const { authStore } = useContext(AuthContext);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    authStore?.signup();
+  };
   return (
     <div>
       <div className="form-usuario">
         <div className="contenedor-form sombra-dark">
           <h1>Make an Account</h1>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="campo-form">
               <label htmlFor="name">Name</label>
-              <input
+              <Input
                 type="text"
                 id="name"
                 name="name"
-                // value={nombre}
                 placeholder="Your Name"
-                // onChange={onChange}
+                value={authStore?.values.username || ""}
+                onChange={(e) => authStore?.setUsername(e.target.value)}
               />
             </div>
             <div className="campo-form">
               <label htmlFor="email">Email</label>
-              <input
+              <Input
                 type="email"
                 id="email"
                 name="email"
-                // value={email}
                 placeholder="Your Email"
-                // onChange={onChange}
+                value={authStore?.values.email || ""}
+                onChange={(e) => authStore?.setEmail(e.target.value)}
               />
             </div>
             <div className="campo-form">
               <label htmlFor="password">Password</label>
-              <input
+              <Input
                 type="password"
                 id="password"
                 name="password"
-                // value={password}
                 placeholder="Your Password"
-                // onChange={onChange}
-              />
-            </div>
-            <div className="campo-form">
-              <label htmlFor="confirm">Confirm Password</label>
-              <input
-                type="password"
-                id="confirm"
-                name="confirm"
-                // value={confirmar}
-                placeholder="Repite your Password"
-                // onChange={onChange}
+                value={authStore?.values.password || ""}
+                onChange={(e) => authStore?.setPassword(e.target.value)}
               />
             </div>
 
@@ -69,5 +67,9 @@ const Signup: React.FC<SignupInterface> = () => {
     </div>
   );
 };
+const Input = styled.input`
+  color: #000;
+  text-transform: none;
+`;
 
-export default Signup;
+export default observer(Signup);
