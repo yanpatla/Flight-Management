@@ -1,5 +1,6 @@
-import { Flight, ProcessEnv } from "./types";
-import dotenv from "dotenv";
+import { Flight } from "./types";
+import connectDB from "./config/db";
+import dotenv, { DotenvConfigOptions } from "dotenv";
 import express from "express";
 import http from "http";
 import cors from "cors";
@@ -7,22 +8,23 @@ import { Server, Socket } from "socket.io";
 import { generateFlightNumber } from "./utils";
 import { airports } from "./airportList";
 import moment from "moment";
-
+import userRouter from "./routes/userRoutes";
 const TIME_FORMAT = "DD/MM/YYYY HH:mm";
 const app = express();
-dotenv.config(process.env.PORT);
+dotenv.config(process.env.FRONTEND_URL as DotenvConfigOptions);
+connectDB();
 app.use(express.json());
-const whiteList = [process.env.FRONTEND_URL];
-const corsOptions: cors.CorsOptions = {
-  origin: function (origin, callback) {
-    if (whiteList.includes(origin as string)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Cors Error"));
-    }
-  },
-};
-app.use(cors(corsOptions));
+// const whiteList = [process.env.FRONTEND_URL];
+// const corsOptions: cors.CorsOptions = {
+//   origin: function (origin, callback) {
+//     if (whiteList.includes(origin as string)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Cors Error"));
+//     }
+//   },
+// };
+// app.use(cors(corsOptions));
 
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -46,6 +48,8 @@ app.get("/flights/:flightNum", (req, res) => {
   const flight = flights.find((p) => p.flightNumber === req.params.flightNum);
   res.json(flight);
 });
+
+app.use("/users", userRouter);
 
 server.listen(process.env.PORT, () => {
   console.log("server listening on port", process.env.PORT);
