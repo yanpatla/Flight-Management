@@ -1,14 +1,19 @@
-import { useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import FlightProvider from "./context/FlightContext";
-import { FlightBoard } from "./pages";
+import { FlightBoard, Login } from "./pages";
+import { Signup } from "./pages/Signup";
 
 function App() {
   return (
-    <div className="app">
+    <BrowserRouter>
       <FlightProvider>
-        <FlightBoard />
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/flights" element={<FlightBoard />} />
+        </Routes>
       </FlightProvider>
-    </div>
+    </BrowserRouter>
   );
 }
 
