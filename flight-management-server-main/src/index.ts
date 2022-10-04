@@ -14,17 +14,17 @@ const app = express();
 dotenv.config(process.env.FRONTEND_URL as DotenvConfigOptions);
 connectDB();
 app.use(express.json());
-// const whiteList = [process.env.FRONTEND_URL];
-// const corsOptions: cors.CorsOptions = {
-//   origin: function (origin, callback) {
-//     if (whiteList.includes(origin as string)) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Cors Error"));
-//     }
-//   },
-// };
-// app.use(cors(corsOptions));
+const whiteList = [process.env.FRONTEND_URL];
+const corsOptions: cors.CorsOptions = {
+  origin: function (origin, callback) {
+    if (whiteList.includes(origin as string)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Cors Error"));
+    }
+  },
+};
+app.use(cors(corsOptions));
 
 const server = http.createServer(app);
 const io = new Server(server, {
