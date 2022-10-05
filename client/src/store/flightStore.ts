@@ -7,13 +7,13 @@ import {
   runInAction,
 } from "mobx";
 import { clientAxios } from "@/config";
-import { Flight, IFlights } from "@/models/flights";
+import Flight from "@/models/flights";
 import io, { Socket } from "socket.io-client";
 export interface IFlightsStore {
   flights: IObservableArray<Flight>;
   search: string;
   getFlights: Flight[];
-  callGetFlights: () => void;
+  init: () => void;
   setSearch: (searchVal: string) => void;
 }
 const socket: Socket = io(import.meta.env.VITE_BACKEND_URL);
@@ -24,18 +24,19 @@ export class FlightStore implements IFlightsStore {
     makeObservable(this);
   }
 
-  @action async callGetFlights() {
+  @action async init() {
     const { data } = await clientAxios.get("/flights");
     this.flights = data.flights ?? [];
     socket.on("flight-update", (flights) => {
       runInAction(() => {
         let flight = flights as Flight;
 
-        this.flights[
-          this.flights?.findIndex(
-            (el) => el.flightNumber === flight.flightNumber
-          )
-        ] = flight;
+        const check = this.flights.find(
+          (el) => flight.flightNumber === el.flightNumber
+        );
+        if (!!check) {
+          check?.update(flight);
+        }
       });
     });
   }

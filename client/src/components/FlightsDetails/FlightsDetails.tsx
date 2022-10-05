@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import styled from "@emotion/styled";
-import { Flight } from "@/models";
+import Flight from "@/models/flights";
 import usePrevious from "@/hooks/usePrevious";
 import SplitText from "@/hooks/useSplitText";
 export interface FlightsDetailsInterface {
@@ -16,7 +16,7 @@ export interface FlightsDetailsInterface {
 const FlightsDetails: React.FC<FlightsDetailsInterface> = ({ flight }) => {
   const prevCount: any = usePrevious(flight.takeoffTime);
   const memoizedValue = useMemo(() => flight.takeoffTime, [prevCount]);
-
+  const [updateData] = useState(new Flight(flight));
   const timeDiffCalc = (currentDate: any, beforeDate: any) => {
     let diffInMilliSeconds = Math.abs(currentDate - beforeDate) / 1000;
     diffInMilliSeconds /= 60;
@@ -46,9 +46,8 @@ const FlightsDetails: React.FC<FlightsDetailsInterface> = ({ flight }) => {
               Number(new Date(prevCount).getTime())
             )
           ) */}
-            {/* ?  */}
-            0
-            {/* : timeDiffCalc(
+          {/* ?  */}0
+          {/* : timeDiffCalc(
                 Number(new Date(flight.takeoffTime).getTime()),
                 Number(new Date(prevCount).getTime())
               )} */}

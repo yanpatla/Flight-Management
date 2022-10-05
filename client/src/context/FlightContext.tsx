@@ -1,4 +1,4 @@
-import { Flight } from "@/models";
+import Flight from "@/models/flights";
 import { FlightStore, IFlightsStore } from "@/store";
 import { createContext, ReactNode, useEffect, useState } from "react";
 export interface FlightContextState {
@@ -13,7 +13,9 @@ const FlightProvider = ({ children }: { children: ReactNode }) => {
     if (!flightStore) {
       setFlightStore(new FlightStore());
     }
-    flightStore?.callGetFlights();
+    flightStore?.init();
+
+    
   }, [flightStore]);
   return (
     <FlightContext.Provider value={{ flightStore }}>

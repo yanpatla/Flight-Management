@@ -1,14 +1,31 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { FlightsDetails } from "../../components/FlightsDetails";
+import FlightsDetails from "@/components/FlightsDetails/FlightsDetails";
 
 import { observer } from "mobx-react";
 import { FlightContext } from "@/context/FlightContext";
-import { Flight } from "@/models/flights";
+import Flight, { IFlight } from "@/models/flights";
 
 export interface FlightBoardInterface {}
 const FlightBoard: React.FC<FlightBoardInterface> = () => {
   const { flightStore } = useContext(FlightContext);
+
+  // socket.on("flight-update", (flights) => {
+  //   runInAction(() => {
+  //     let flight = flights as Flight;
+
+  //     const pepe = this.flights.find(
+  //       (el) => flight.flightNumber === el.flightNumber
+  //     );
+  //     // if(pepe){
+  //     //   console.log('pep');
+
+  //     // }
+  //     // pepe?.update(flights);
+  //     pepe?.update(flight);
+
+  //   });
+  // });
   return (
     <>
       <FlightBoardStyle>
@@ -33,7 +50,7 @@ const FlightBoard: React.FC<FlightBoardInterface> = () => {
             </tr>
           </thead>
           <tbody id="table-body">
-            {flightStore?.getFlights?.map((flight: Flight) => (
+            {flightStore?.getFlights?.map((flight) => (
               <FlightsDetails key={flight.flightNumber} flight={flight} />
             ))}
           </tbody>
