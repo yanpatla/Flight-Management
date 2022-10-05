@@ -16,7 +16,6 @@ export interface FlightsDetailsInterface {
 const FlightsDetails: React.FC<FlightsDetailsInterface> = ({ flight }) => {
   const prevCount: any = usePrevious(flight.takeoffTime);
   const memoizedValue = useMemo(() => flight.takeoffTime, [prevCount]);
-  const [updateData] = useState(new Flight(flight));
   const timeDiffCalc = (currentDate: any, beforeDate: any) => {
     let diffInMilliSeconds = Math.abs(currentDate - beforeDate) / 1000;
     diffInMilliSeconds /= 60;
