@@ -34,8 +34,10 @@ export class FlightStore implements IFlightsStore {
         const check = this.flights.find(
           (el) => flight.flightNumber === el.flightNumber
         );
-        if (!!check) {
-          check?.update(flight);
+        if (check) {
+          console.log(check);
+          console.log(flight);
+          check.update(new Flight(check));
         }
       });
     });

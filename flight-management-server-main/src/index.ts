@@ -28,6 +28,7 @@ app.use(cors(corsOptions));
 
 const server = http.createServer(app);
 const io = new Server(server, {
+  pingTimeout: 600000,
   cors: { origin: process.env.FRONTEND_URL },
 });
 
@@ -37,7 +38,7 @@ io.on("connection", (socket) => {
   console.log("a user connected");
   setInterval(() => {
     publishEntityUpdate(socket);
-  }, 300);
+  }, 500);
 });
 
 app.get("/flights", (req, res) => {
@@ -51,7 +52,7 @@ app.get("/flights/:flightNum", (req, res) => {
 
 app.use("/users", userRouter);
 
-server.listen(process.env.PORT, () => {
+server.listen(process.env.PORT || 4963, () => {
   console.log("server listening on port", process.env.PORT);
   for (let i = 0; i < 50; i++) {
     const randomAP1 = Math.floor(Math.random() * 50);

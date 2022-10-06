@@ -31,9 +31,8 @@ export default class Flight implements IFlight {
     }
     makeObservable(this);
   }
-  @action update(flight: IFlight) {
-    console.log(flight);
-    this.flightNumber = flight.flightNumber;
+  @action  update(flight: IFlight) { 
+    console.log(flight)
     this.landingAirport = flight.landingAirport;
     this.landingTime = flight.landingTime;
     this.status = flight.status;

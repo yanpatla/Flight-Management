@@ -23,7 +23,6 @@ const FlightBoard: React.FC<FlightBoardInterface> = () => {
   //     // }
   //     // pepe?.update(flights);
   //     pepe?.update(flight);
-
   //   });
   // });
   return (
@@ -50,7 +49,7 @@ const FlightBoard: React.FC<FlightBoardInterface> = () => {
             </tr>
           </thead>
           <tbody id="table-body">
-            {flightStore?.getFlights?.map((flight) => (
+            {flightStore?.flights?.map((flight) => (
               <FlightsDetails key={flight.flightNumber} flight={flight} />
             ))}
           </tbody>
