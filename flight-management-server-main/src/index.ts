@@ -52,8 +52,8 @@ app.get("/flights/:flightNum", (req, res) => {
 
 app.use("/users", userRouter);
 
-server.listen(process.env.PORT || 4963, () => {
-  console.log("server listening on port", process.env.PORT);
+server.listen( 4963, () => {
+  console.log("server listening on port",4963)
   for (let i = 0; i < 50; i++) {
     const randomAP1 = Math.floor(Math.random() * 50);
     const randomAP2 = Math.floor(Math.random() * 50);

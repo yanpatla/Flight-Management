@@ -14,12 +14,6 @@ export interface IFlight {
 // }
 
 export default class Flight implements IFlight {
-  @observable flightNumber!: string;
-  @observable takeoffTime!: Date;
-  @observable landingTime!: Date;
-  @observable takeoffAirport!: string;
-  @observable landingAirport!: string;
-  @observable status!: string;
   constructor(params?: IFlight) {
     if (params) {
       this.flightNumber = params.flightNumber;
@@ -28,11 +22,19 @@ export default class Flight implements IFlight {
       this.status = params.status;
       this.takeoffAirport = params.takeoffAirport;
       this.takeoffTime = params.takeoffTime;
+      console.log(params);
     }
     makeObservable(this);
   }
-  @action  update(flight: IFlight) { 
-    console.log(flight)
+  @observable flightNumber!: string;
+  @observable takeoffTime!: Date;
+  @observable landingTime!: Date;
+  @observable takeoffAirport!: string;
+  @observable landingAirport!: string;
+  @observable status!: string;
+  @action update(flight: IFlight) {
+    console.log(flight);
+    this.flightNumber = flight.flightNumber;
     this.landingAirport = flight.landingAirport;
     this.landingTime = flight.landingTime;
     this.status = flight.status;

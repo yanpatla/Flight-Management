@@ -37,7 +37,7 @@ export class FlightStore implements IFlightsStore {
         if (check) {
           console.log(check);
           console.log(flight);
-          check.update(new Flight(check));
+          check.update(new Flight(flight));
         }
       });
     });
