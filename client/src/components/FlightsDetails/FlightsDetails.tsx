@@ -25,19 +25,19 @@ const FlightsDetails: React.FC<FlightsDetailsInterface> = ({ flight }) => {
 
   //   return minutes;
   // };
-  const [editClone] = useState(new Flight(flight));
-
-  useEffect(() => {
-    socket.on("flight-update", (flights) => {
-      io(import.meta.env.VITE_BACKEND_URL);
-
-      let flight = flights as Flight;
-      if (!!editClone.flightNumber) {
-        flight.update(editClone);
-        console.log(editClone);
-      }
-    });
-  });
+  // const [editClone] = useState(new Flight(flight));
+  // useEffect(() => {
+  //   io(import.meta.env.VITE_BACKEND_URL);
+  // }, []);
+  // useEffect(() => {
+  //   socket.on("flight-update", (flights) => {
+  //     let flight = flights as Flight;
+  //     if (!!editClone.flightNumber) {
+  //       flight.update(editClone);
+  //       console.log(editClone);
+  //     }
+  //   });
+  // });
 
   return (
     <>
